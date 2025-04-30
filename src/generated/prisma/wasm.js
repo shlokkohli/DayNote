@@ -140,8 +140,7 @@ exports.Prisma.SummaryScalarFieldEnum = {
   id: 'id',
   content: 'content',
   createdAt: 'createdAt',
-  ownerId: 'ownerId',
-  isProductive: 'isProductive'
+  ownerId: 'ownerId'
 };
 
 exports.Prisma.SortOrder = {

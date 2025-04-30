@@ -22,30 +22,7 @@ export async function POST(request: Request){
         const startOfDay = new Date(now.setHours(0, 0, 0)) // this sets time to the start of the day 0:0:0
         const endOfDay = new Date(now.setHours(23, 59, 59)) // this sets the time to the end of the day 23:59:59
 
-        // check if a summary already exists for that day
-        const existingSummary = await prisma.summary.findFirst({
-            where: {
-                ownerId: session.user.id,
-                createdAt: {
-                    gte: startOfDay,
-                    lte: endOfDay
-                }
-            },
-            select: {
-                content: true
-            }
-        })
         
-        // // if summary already exists, return that summary only
-        if(existingSummary){
-            return NextResponse.json(
-                { message: existingSummary },
-                { status: 200 }
-            )
-        }
-
-        // if the summary does not exist, create one by taking a user's all the logs
-
         //  Step 1: Fetch a user's logs for today
         const logs = await prisma.log.findMany({
             where: {
@@ -61,7 +38,7 @@ export async function POST(request: Request){
         // if there are no logs, send an error
         if(logs.length === 0){
             return NextResponse.json(
-                { message: "No logs for toady" },
+                { message: "No logs for today" },
                 { status: 404 }
             )
         }
@@ -94,44 +71,24 @@ export async function POST(request: Request){
             }
         })
 
-        const output = summary.candidates?.[0].content?.parts?.[0] as string
-
-
-        // generate the user's isProductive title
-        const response2 = await ai.models.generateContent({
-            model: "gemini-2.0-flash",
-            contents: output,
-            config: {
-                systemInstruction: "You are going to get a user's day summary data an input and you are supposed to label it as productive or non productive. You are not supposed to be polite nor harsh, just be honest and tell the user if the day was productive or not, and make sure to strictly adhere to just true or false. If the day was productive, give a yes, otherwise no. Make sure to write yes or no in all small letters."
-            }
-        })
-
-        const productivityResponse = response2.candidates?.[0].content?.parts?.[0] as string
-
-        const isProductive = productivityResponse === "yes";
+        const output = summary.candidates?.[0].content?.parts?.[0].text as string
 
         // take this output and save it to the database
-        await prisma.summary.create({
+        const response = await prisma.summary.create({
             data: {
                 content: output,
-                ownerId: session.user.id,
-                isProductive: isProductive,
-            }
-        })
-
-        // once the summary is saved, delete all logs
-        await prisma.log.deleteMany({
-            where: {
                 ownerId: session.user.id,
             }
         })
 
         return NextResponse.json(
-            { message: "Summary generated" },
+            { summary: response.content },
             { status: 200 }
         )
         
     } catch (error) {
+
+        console.log(error)
 
         return NextResponse.json(
             { message: "Error occured while generating summary", error },

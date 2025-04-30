@@ -3290,7 +3290,6 @@ export namespace Prisma {
     content: string | null
     createdAt: Date | null
     ownerId: string | null
-    isProductive: boolean | null
   }
 
   export type SummaryMaxAggregateOutputType = {
@@ -3298,7 +3297,6 @@ export namespace Prisma {
     content: string | null
     createdAt: Date | null
     ownerId: string | null
-    isProductive: boolean | null
   }
 
   export type SummaryCountAggregateOutputType = {
@@ -3306,7 +3304,6 @@ export namespace Prisma {
     content: number
     createdAt: number
     ownerId: number
-    isProductive: number
     _all: number
   }
 
@@ -3316,7 +3313,6 @@ export namespace Prisma {
     content?: true
     createdAt?: true
     ownerId?: true
-    isProductive?: true
   }
 
   export type SummaryMaxAggregateInputType = {
@@ -3324,7 +3320,6 @@ export namespace Prisma {
     content?: true
     createdAt?: true
     ownerId?: true
-    isProductive?: true
   }
 
   export type SummaryCountAggregateInputType = {
@@ -3332,7 +3327,6 @@ export namespace Prisma {
     content?: true
     createdAt?: true
     ownerId?: true
-    isProductive?: true
     _all?: true
   }
 
@@ -3413,7 +3407,6 @@ export namespace Prisma {
     content: string
     createdAt: Date
     ownerId: string
-    isProductive: boolean
     _count: SummaryCountAggregateOutputType | null
     _min: SummaryMinAggregateOutputType | null
     _max: SummaryMaxAggregateOutputType | null
@@ -3438,7 +3431,6 @@ export namespace Prisma {
     content?: boolean
     createdAt?: boolean
     ownerId?: boolean
-    isProductive?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["summary"]>
 
@@ -3447,7 +3439,6 @@ export namespace Prisma {
     content?: boolean
     createdAt?: boolean
     ownerId?: boolean
-    isProductive?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["summary"]>
 
@@ -3456,7 +3447,6 @@ export namespace Prisma {
     content?: boolean
     createdAt?: boolean
     ownerId?: boolean
-    isProductive?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["summary"]>
 
@@ -3465,10 +3455,9 @@ export namespace Prisma {
     content?: boolean
     createdAt?: boolean
     ownerId?: boolean
-    isProductive?: boolean
   }
 
-  export type SummaryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "createdAt" | "ownerId" | "isProductive", ExtArgs["result"]["summary"]>
+  export type SummaryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "createdAt" | "ownerId", ExtArgs["result"]["summary"]>
   export type SummaryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -3489,7 +3478,6 @@ export namespace Prisma {
       content: string
       createdAt: Date
       ownerId: string
-      isProductive: boolean
     }, ExtArgs["result"]["summary"]>
     composites: {}
   }
@@ -3918,7 +3906,6 @@ export namespace Prisma {
     readonly content: FieldRef<"Summary", 'String'>
     readonly createdAt: FieldRef<"Summary", 'DateTime'>
     readonly ownerId: FieldRef<"Summary", 'String'>
-    readonly isProductive: FieldRef<"Summary", 'Boolean'>
   }
     
 
@@ -4373,8 +4360,7 @@ export namespace Prisma {
     id: 'id',
     content: 'content',
     createdAt: 'createdAt',
-    ownerId: 'ownerId',
-    isProductive: 'isProductive'
+    ownerId: 'ownerId'
   };
 
   export type SummaryScalarFieldEnum = (typeof SummaryScalarFieldEnum)[keyof typeof SummaryScalarFieldEnum]
@@ -4462,13 +4448,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -4610,7 +4589,6 @@ export namespace Prisma {
     content?: StringFilter<"Summary"> | string
     createdAt?: DateTimeFilter<"Summary"> | Date | string
     ownerId?: StringFilter<"Summary"> | string
-    isProductive?: BoolFilter<"Summary"> | boolean
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -4619,7 +4597,6 @@ export namespace Prisma {
     content?: SortOrder
     createdAt?: SortOrder
     ownerId?: SortOrder
-    isProductive?: SortOrder
     owner?: UserOrderByWithRelationInput
   }
 
@@ -4631,7 +4608,6 @@ export namespace Prisma {
     content?: StringFilter<"Summary"> | string
     createdAt?: DateTimeFilter<"Summary"> | Date | string
     ownerId?: StringFilter<"Summary"> | string
-    isProductive?: BoolFilter<"Summary"> | boolean
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -4640,7 +4616,6 @@ export namespace Prisma {
     content?: SortOrder
     createdAt?: SortOrder
     ownerId?: SortOrder
-    isProductive?: SortOrder
     _count?: SummaryCountOrderByAggregateInput
     _max?: SummaryMaxOrderByAggregateInput
     _min?: SummaryMinOrderByAggregateInput
@@ -4654,7 +4629,6 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<"Summary"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Summary"> | Date | string
     ownerId?: StringWithAggregatesFilter<"Summary"> | string
-    isProductive?: BoolWithAggregatesFilter<"Summary"> | boolean
   }
 
   export type UserCreateInput = {
@@ -4780,7 +4754,6 @@ export namespace Prisma {
     id?: string
     content: string
     createdAt?: Date | string
-    isProductive: boolean
     owner: UserCreateNestedOneWithoutSummaryInput
   }
 
@@ -4789,14 +4762,12 @@ export namespace Prisma {
     content: string
     createdAt?: Date | string
     ownerId: string
-    isProductive: boolean
   }
 
   export type SummaryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isProductive?: BoolFieldUpdateOperationsInput | boolean
     owner?: UserUpdateOneRequiredWithoutSummaryNestedInput
   }
 
@@ -4805,7 +4776,6 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ownerId?: StringFieldUpdateOperationsInput | string
-    isProductive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SummaryCreateManyInput = {
@@ -4813,14 +4783,12 @@ export namespace Prisma {
     content: string
     createdAt?: Date | string
     ownerId: string
-    isProductive: boolean
   }
 
   export type SummaryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isProductive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SummaryUncheckedUpdateManyInput = {
@@ -4828,7 +4796,6 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ownerId?: StringFieldUpdateOperationsInput | string
-    isProductive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -5034,17 +5001,11 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type SummaryCountOrderByAggregateInput = {
     id?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     ownerId?: SortOrder
-    isProductive?: SortOrder
   }
 
   export type SummaryMaxOrderByAggregateInput = {
@@ -5052,7 +5013,6 @@ export namespace Prisma {
     content?: SortOrder
     createdAt?: SortOrder
     ownerId?: SortOrder
-    isProductive?: SortOrder
   }
 
   export type SummaryMinOrderByAggregateInput = {
@@ -5060,15 +5020,6 @@ export namespace Prisma {
     content?: SortOrder
     createdAt?: SortOrder
     ownerId?: SortOrder
-    isProductive?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type LogCreateNestedManyWithoutOwnerInput = {
@@ -5193,10 +5144,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutSummaryInput, UserUncheckedCreateWithoutSummaryInput>
     connectOrCreate?: UserCreateOrConnectWithoutSummaryInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutSummaryNestedInput = {
@@ -5350,19 +5297,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type LogCreateWithoutOwnerInput = {
     id?: string
     content: string
@@ -5389,14 +5323,12 @@ export namespace Prisma {
     id?: string
     content: string
     createdAt?: Date | string
-    isProductive: boolean
   }
 
   export type SummaryUncheckedCreateWithoutOwnerInput = {
     id?: string
     content: string
     createdAt?: Date | string
-    isProductive: boolean
   }
 
   export type SummaryCreateOrConnectWithoutOwnerInput = {
@@ -5459,7 +5391,6 @@ export namespace Prisma {
     content?: StringFilter<"Summary"> | string
     createdAt?: DateTimeFilter<"Summary"> | Date | string
     ownerId?: StringFilter<"Summary"> | string
-    isProductive?: BoolFilter<"Summary"> | boolean
   }
 
   export type UserCreateWithoutLogsInput = {
@@ -5584,7 +5515,6 @@ export namespace Prisma {
     id?: string
     content: string
     createdAt?: Date | string
-    isProductive: boolean
   }
 
   export type LogUpdateWithoutOwnerInput = {
@@ -5609,21 +5539,18 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isProductive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SummaryUncheckedUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isProductive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SummaryUncheckedUpdateManyWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isProductive?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

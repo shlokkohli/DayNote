@@ -4,10 +4,17 @@ import ThemeToggle from '../ThemeToggle'
 import Logo from './Logo'
 import Link from 'next/link';
 import { Home, Settings } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 
 const AuthNavbar = () => {
 
   const pathname = usePathname();
+
+  const handleLogout = async () => {
+    await signOut({
+      callbackUrl: '/'
+    })
+  }
 
   return (
     <div className='min-h-18 py-4 flex items-center max-w-6xl justify-between mx-auto px-3'>
@@ -39,6 +46,13 @@ const AuthNavbar = () => {
                 </div>
 
                 <ThemeToggle />
+
+                <button
+                  className='px-3 py-2 rounded-md dark:text-gray-300 bg-red-600 text-white dark:bg-red-800 cursor-pointer'
+                  onClick={handleLogout}>
+                  Logout
+                </button>
+
             </div>
         </div>
     </div>

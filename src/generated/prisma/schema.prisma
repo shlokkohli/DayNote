@@ -38,10 +38,9 @@ model Log {
 }
 
 model Summary {
-  id           String   @id @default(cuid())
-  content      String
-  createdAt    DateTime @default(now())
-  ownerId      String
-  owner        User     @relation(fields: [ownerId], references: [id])
-  isProductive Boolean
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id])
 }

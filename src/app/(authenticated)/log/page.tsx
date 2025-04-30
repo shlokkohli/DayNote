@@ -39,7 +39,7 @@ const page = () => {
         else if(hours >= 17 && hours < 20){
             setGreetings("Good Evening")
         }
-        else if(hours >= 20 && hours < 0){
+        else if(hours >= 20 && hours <= 23){
             setGreetings("Good Night")
         }
         else if(hours >= 0 && hours < 4){

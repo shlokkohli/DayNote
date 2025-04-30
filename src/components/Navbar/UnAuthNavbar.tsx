@@ -8,6 +8,7 @@ const UnAuthNavbar = () => {
 
   return (
     <div className='min-h-18 py-4 flex items-center max-w-6xl justify-between mx-auto px-3'>
+
         <Logo />
 
         <div className='flex'>
