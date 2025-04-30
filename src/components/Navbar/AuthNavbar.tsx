@@ -28,7 +28,7 @@ const AuthNavbar = () => {
                   <Link
                   href={'/log'}
                   className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${ pathname === '/log' ? 
-                    'text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-purple-900/20'
+                    'text-purple-600 bg-purple-500/20 dark:text-purple-400 dark:bg-purple-900/20' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-purple-900/20'
                   }`}>
                     <Home className="w-5 h-5" />
                     <span className="font-medium">Log</span>
@@ -37,7 +37,7 @@ const AuthNavbar = () => {
                   <Link
                   href={'/settings'}
                   className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${ pathname === '/settings' ? 
-                    'text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-purple-900/20'
+                    'text-purple-600 bg-purple-500/20 dark:text-purple-400 dark:bg-purple-900/20' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-purple-900/20'
                   }`}>
                     <Settings className="w-5 h-5" />
                     <span className="font-medium">Settings</span>

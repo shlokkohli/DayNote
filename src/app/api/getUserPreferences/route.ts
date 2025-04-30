@@ -3,7 +3,7 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function PUT(request: Request) {
+export async function GET() {
 
     const session = await getServerSession(authOptions)
 
@@ -16,30 +16,32 @@ export async function PUT(request: Request) {
             )
         }
 
-        const { NotificationType, SummaryFormat } = await request.json();
-
-        // update the user's notification preference and summary preference
-        await prisma.user.update({
+        const user = await prisma.user.findUnique({
             where: {
                 id: session.user.id
             },
-            data: {
-                NotificationType: NotificationType,
-                SummaryFormat: SummaryFormat  
+            select: {
+                NotificationType: true,
+                SummaryFormat: true
             }
         })
 
+        if(!user){
+            return NextResponse.json(
+                { message: "User not found" },
+                { status: 404 }
+            )
+        }
+
         return NextResponse.json(
-            { message: "Preferences updated successfully" },
+            { message: user },
             { status: 200 }
-        )
+        )        
         
     } catch (error) {
 
-        console.log(error)
-
         return NextResponse.json(
-            { message: "Error updating settings", error },
+            { message: "Internal server error" },
             { status: 500 }
         )
         

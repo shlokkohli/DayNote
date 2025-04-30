@@ -9,6 +9,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios, { AxiosError } from 'axios'
 import { toast } from 'sonner'
+import { getFormattedDate } from '@/helper/getFormattedDate'
 
 interface ErrorMessage {
     message: string
@@ -24,10 +25,8 @@ const page = () => {
     const router = useRouter();
 
     const hours = currentDate.getHours();
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    
-    const formattedDate = `${days[currentDate.getDay()]}, ${months[currentDate.getMonth()]} ${currentDate.getDate()}`
+
+    const formattedDate = getFormattedDate()
 
     const greeting = () => {
         if(hours >= 4 && hours < 12){
@@ -148,7 +147,7 @@ const page = () => {
                             </button>
 
                             <button
-                                type='submit'
+                                type='button'
                                 className='w-full px-6 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2 group'
                                 onClick={() => router.push('/summary')}
                             >

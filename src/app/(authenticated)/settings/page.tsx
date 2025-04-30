@@ -1,8 +1,8 @@
 'use client'
 import { settingsSchema } from '@/schemas/settingsSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AlignLeft, BellOff, Clock, Layers, Save } from 'lucide-react'
-import { useState } from 'react';
+import { AlignLeft, Axis3DIcon, BellOff, Clock, Layers, Save } from 'lucide-react'
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {z} from 'zod'
 import axios, { AxiosError } from 'axios'
@@ -13,40 +13,63 @@ interface ErrorMessage {
   message: string
 }
 
+
+interface Preferences {
+  NotificationType: "NoNotification" | "FixedIntervals";
+  SummaryFormat: "Segmented" | "Paragraph";
+}
+
 const settingsPage = () => {
 
-  const [isSaved, setIsSaved] = useState(false)
-
-  const {data: session} = useSession();
-
-  const { register, handleSubmit } = useForm<z.infer<typeof settingsSchema>>({
+  const { register, handleSubmit, reset } = useForm<z.infer<typeof settingsSchema>>({
     resolver: zodResolver(settingsSchema),
-    defaultValues: {
-      NotificationType: 'NoNotification',
-      SummaryFormat: 'paragraph'
-    }
   });
+
+  useEffect(() => {
+
+    const getUserPreferences = async () => {
+
+      try {
+
+        const response = await axios.get('/api/getUserPreferences')
+        
+        const userPreferences = (response.data.message as Preferences)
+        
+        reset({
+          NotificationType: userPreferences.NotificationType,
+          SummaryFormat: userPreferences.SummaryFormat
+        })
+
+      } catch (error) {
+
+        const axiosError = error as AxiosError
+        const errorMessage = (axiosError.response?.data as ErrorMessage).message
+
+        toast.error(errorMessage)
+      }
+    }
+    getUserPreferences()
+
+  }, [])
 
   const handleSettingsSubmit = async (data: z.infer<typeof settingsSchema>) => {
 
     try {
 
-        console.log("these are the options", data)
+      console.log(data)
 
-    //   const response = await axios.put('/api/settings', data)
+      const response = await axios.put('/api/settings', data)
 
-      setIsSaved(true)
-
-      setTimeout(() => {
-        setIsSaved(false)
-      }, 3000);
+      if(response.statusText === 'OK'){
+        toast.success(response.data.message)
+      }
       
     } catch (error) {
 
       const axiosError = error as AxiosError
       const errorMessage = (axiosError.response?.data as ErrorMessage).message
-
-      console.log(errorMessage)
+      
+      toast.error(errorMessage)
       
     }
   }
@@ -149,7 +172,7 @@ const settingsPage = () => {
                   <input
                     type="radio"
                     id="paragraph"
-                    value='paragraph'
+                    value='Paragraph'
                     className='peer w-5 h-5 text-purple-600 border-gray-300 focus:ring-purple-500'
                     {...register('SummaryFormat')}
                   />
@@ -178,7 +201,7 @@ const settingsPage = () => {
                   <input
                     type="radio"
                     id="segmented"
-                    value='segmented'
+                    value='Segmented'
                     className='peer w-5 h-5 text-purple-600 border-gray-300 focus:ring-purple-500'
                     {...register('SummaryFormat')}
                   />
@@ -208,10 +231,6 @@ const settingsPage = () => {
 
             {/* submit button */}
             <div className='flex justify-end items-center space-x-3'>
-
-            <p className={`text-sm text-green-400 transition-opacity duration-300 ${isSaved ? 'opacity-100' : 'opacity-0'}`}>
-              Settings saved successfully!
-            </p>
 
               <button
                 type='submit'

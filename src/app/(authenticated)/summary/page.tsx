@@ -5,6 +5,7 @@ import { Calendar, ChevronLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import GenericLoader from '@/components/Skeletons/GenricLoader'
+import { toast } from 'sonner'
 
 interface output {
     summary: string
@@ -34,20 +35,29 @@ const summaryPage = () => {
                 const response = await axios.post('/api/generateSummary')
                 const message = (response.data as output).summary
 
+                console.log(message === 'NoLogs')
+
                 const summaryParts = message.split('\n')
 
                 setHeading(summaryParts[0])
 
-                const formattedSummary = summaryParts[2].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-
-                setSummary(formattedSummary)
+                const formattedParts = summaryParts.slice(2) // skip heading and empty line
+                .filter(part => part.trim() !== '') // remove extra empty lines
+                .map((part) => 
+                  part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Replace **text** with <strong>text</strong>
+                );
+        
+                const finalSummary = formattedParts.join('<br/><br/>');// Add spacing between parts
+        
+              setSummary(finalSummary);
                 
             } catch (error) {
 
                 const axiosError = error as AxiosError
                 const errorMessage = (axiosError.response?.data as ErrorMessage).message
 
-                console.log(errorMessage)
+                setHeading(errorMessage)
+                setSummary('')
                 
             } finally {
                 setLoading(false)
@@ -84,7 +94,7 @@ const summaryPage = () => {
                         {heading}
                     </h1>
 
-                    <p className='text-xl text-center dark:text-white text-gray-700 leading-relaxed'
+                    <p className='text-xl text-center dark:text-white text-gray-700 overflow-scroll'
                         dangerouslySetInnerHTML={{ __html: summary }}>
                     </p>
 

@@ -38,7 +38,7 @@ export async function POST(request: Request){
         // if there are no logs, send an error
         if(logs.length === 0){
             return NextResponse.json(
-                { message: "No logs for today" },
+                { message: "You did not logged your day today!" },
                 { status: 404 }
             )
         }
