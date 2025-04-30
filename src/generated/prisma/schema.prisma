@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SummaryFormat {
+  Paragraph
+  Segmented
+}
+
+enum NotificationType {
+  NoNotification
+  FixedIntervals
+}
+
+model User {
+  id               String           @id @default(cuid())
+  name             String
+  email            String           @unique
+  password         String?
+  SummaryFormat    SummaryFormat    @default(Paragraph)
+  NotificationType NotificationType @default(NoNotification)
+  logs             Log[]
+  Summary          Summary[]
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id])
+}
+
+model Summary {
+  id           String   @id @default(cuid())
+  content      String
+  createdAt    DateTime @default(now())
+  ownerId      String
+  owner        User     @relation(fields: [ownerId], references: [id])
+  isProductive Boolean
+}
