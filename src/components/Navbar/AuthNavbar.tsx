@@ -1,5 +1,5 @@
 'use client'
-import { useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import ThemeToggle from '../ThemeToggle'
 import Logo from './Logo'
 import Link from 'next/link';
@@ -7,7 +7,7 @@ import { Home, Settings } from 'lucide-react';
 
 const AuthNavbar = () => {
 
-  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div className='min-h-18 py-4 flex items-center max-w-6xl justify-between mx-auto px-3'>
@@ -20,7 +20,7 @@ const AuthNavbar = () => {
 
                   <Link
                   href={'/log'}
-                  className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${ location.pathname === '/log' ? 
+                  className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${ pathname === '/log' ? 
                     'text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-purple-900/20'
                   }`}>
                     <Home className="w-5 h-5" />
@@ -29,7 +29,7 @@ const AuthNavbar = () => {
 
                   <Link
                   href={'/settings'}
-                  className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${ location.pathname === '/settings' ? 
+                  className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${ pathname === '/settings' ? 
                     'text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-purple-900/20'
                   }`}>
                     <Settings className="w-5 h-5" />
