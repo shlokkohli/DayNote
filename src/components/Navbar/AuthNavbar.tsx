@@ -1,3 +1,4 @@
+'use client'
 import { useRouter } from 'next/navigation'
 import ThemeToggle from '../ThemeToggle'
 import Logo from './Logo'
