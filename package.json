@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.17",
+    "@fullcalendar/daygrid": "^6.1.17",
+    "@fullcalendar/react": "^6.1.17",
     "@google/genai": "^0.10.0",
     "@hookform/resolvers": "^5.0.1",
     "@prisma/client": "^6.7.0",

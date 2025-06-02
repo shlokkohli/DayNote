@@ -48,7 +48,7 @@ const AuthNavbar = () => {
                 <ThemeToggle />
 
                 <button
-                  className='px-3 py-2 rounded-md dark:text-gray-300 bg-red-600 text-white dark:bg-red-800 cursor-pointer'
+                  className='px-3 py-2 rounded-md dark:text-gray-300 bg-red-600 text-white cursor-pointer'
                   onClick={handleLogout}>
                   Logout
                 </button>
