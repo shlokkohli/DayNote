@@ -17,11 +17,11 @@ const AuthNavbar = () => {
   }
 
   return (
-    <div className='min-h-18 py-4 flex items-center max-w-6xl justify-between mx-auto px-3'>
+    <div className='min-h-18 py-4 flex items-center max-w-6xl justify-between mx-auto px-3 z-50'>
         <Logo />
 
         <div className='flex'>
-            <div className='flex justify-center space-x-5'>
+            <div className='flex justify-center sm:space-x-5'>
 
                 <div className='flex gap-4'>
 

@@ -19,11 +19,13 @@ export async function POST(request: Request){
 
         // first get today's date
         const now = new Date();
-        const startOfDay = new Date(now.setHours(0, 0, 0)) // this sets time to the start of the day 0:0:0
-        const endOfDay = new Date(now.setHours(23, 59, 59)) // this sets the time to the end of the day 23:59:59
+        const startOfDay = new Date(now)
+        startOfDay.setHours(0, 0, 0, 0);
 
+        const endOfDay = new Date(now);
+        endOfDay.setHours(23, 59, 59, 999);
         
-        //  Step 1: Fetch a user's logs for today
+        //  Step 1: Fetch the user's logs for today
         const logs = await prisma.log.findMany({
             where: {
                 ownerId: session.user.id,
@@ -32,7 +34,7 @@ export async function POST(request: Request){
                     lte: endOfDay
                 }
             },
-            orderBy: { createdAt: 'asc' }
+            orderBy: { createdAt: 'desc' }
         })
 
         // if there are no logs, send an error
@@ -44,7 +46,7 @@ export async function POST(request: Request){
         }
 
 
-        // format the logs this mannar -> [time] [contnet]
+        // format the logs this manner -> [time] [content]
         const formattedLogs = logs.map((eachLog) => {
             const time = eachLog.createdAt.toLocaleString().split(',')[1].trim()
             return `${time} ${eachLog.content}`
@@ -73,16 +75,43 @@ export async function POST(request: Request){
 
         const output = summary.candidates?.[0].content?.parts?.[0].text as string
 
-        // take this output and save it to the database
-        const response = await prisma.summary.create({
-            data: {
-                content: output,
+        // take this output and save to the database
+
+        // # Check if there is already a summary for today
+        const existingSummary = await prisma.summary.findFirst({
+            where: {
                 ownerId: session.user.id,
+                createdAt: {
+                    gte: startOfDay,
+                    lte: endOfDay
+                }
             }
         })
 
+        let savedSummary;
+
+        // (if yes, replace it with the new one)
+        if(existingSummary){
+            savedSummary = await prisma.summary.update({
+                where: {
+                    id: existingSummary.id,
+                },
+                data: {
+                    content: output
+                }
+            })
+        } else {
+            // save the summary to the database
+            savedSummary = await prisma.summary.create({
+                data: {
+                    content: output,
+                    ownerId: session.user.id,
+                }
+            })
+        }
+
         return NextResponse.json(
-            { summary: response.content },
+            { summary: savedSummary.content },
             { status: 200 }
         )
         

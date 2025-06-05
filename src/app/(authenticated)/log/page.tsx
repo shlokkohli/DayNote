@@ -149,7 +149,7 @@ const page = () => {
                             <button
                                 type='button'
                                 className='w-full px-6 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2 group'
-                                onClick={() => router.push('/summary')}
+                                onClick={() => router.push('/summary?generate=true')}
                             >
                                 <Sparkles className='w-5 h-5' />
                                 <span>

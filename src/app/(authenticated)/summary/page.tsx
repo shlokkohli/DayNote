@@ -2,7 +2,7 @@
 import { getFormattedDate } from '@/helper/getFormattedDate'
 import axios, { AxiosError } from 'axios'
 import { Calendar, ChevronLeft } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import GenericLoader from '@/components/Skeletons/GenricLoader'
 import { toast } from 'sonner'
@@ -24,6 +24,15 @@ const summaryPage = () => {
     const [heading, setHeading] = useState('')
     const [loading, setLoading] = useState(false)
 
+    const searchParams = useSearchParams();
+    const generate = searchParams.get('generate')
+
+    let shouldGenerate = false;
+
+    if(generate === 'true'){
+        shouldGenerate = true;
+    }
+
     useEffect(() => {
 
         const getUserSummar = async () => {
@@ -32,24 +41,46 @@ const summaryPage = () => {
 
                 setLoading(true)
 
-                const response = await axios.post('/api/generateSummary')
-                const message = (response.data as output).summary
+                if(shouldGenerate){
+                    const response = await axios.post('/api/generateSummary')
+                    const message = (response.data as output).summary
 
-                console.log(message === 'NoLogs')
+                    const summaryParts = message.split('\n')
 
-                const summaryParts = message.split('\n')
+                    setHeading(summaryParts[0])
 
-                setHeading(summaryParts[0])
+                    const formattedParts = summaryParts.slice(2) // skip heading and empty line
+                    .filter(part => part.trim() !== '') // remove extra empty lines
+                    .map((part) => 
+                    part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Replace **text** with <strong>text</strong>
+                    );
+            
+                    const finalSummary = formattedParts.join('<br/><br/>');// Add spacing between parts
+            
+                    setSummary(finalSummary);
 
-                const formattedParts = summaryParts.slice(2) // skip heading and empty line
-                .filter(part => part.trim() !== '') // remove extra empty lines
-                .map((part) => 
-                  part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Replace **text** with <strong>text</strong>
-                );
-        
-                const finalSummary = formattedParts.join('<br/><br/>');// Add spacing between parts
-        
-              setSummary(finalSummary);
+                } else {
+
+                    const response = await axios.get('/api/userSummaries');
+                    const allSumaries = response.data.summaries;
+
+                    const latestSummary = allSumaries[0].content
+
+                    const summaryParts = latestSummary.split('\n')
+
+                    setHeading(summaryParts[0])
+
+                    const formattedParts = summaryParts.slice(2) // skip heading and empty line
+                    .filter((part : any) => part.trim() !== '') // remove extra empty lines
+                    .map((part : any) => 
+                    part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Replace **text** with <strong>text</strong>
+                    );
+            
+                    const finalSummary = formattedParts.join('<br/><br/>');// Add spacing between parts
+            
+                    setSummary(finalSummary);
+
+                }
                 
             } catch (error) {
 
