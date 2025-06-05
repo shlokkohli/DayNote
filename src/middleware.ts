@@ -11,6 +11,10 @@ export async function middleware(request: NextRequest) {
   if (token && (url.pathname === '/' || url.pathname === '/sign-up')) {
     return NextResponse.redirect(new URL('/log', request.url));
   }
+  
+  if (!token && ['/log', '/calendar', '/summary'].includes(url.pathname)) {
+    return NextResponse.redirect(new URL('/sign-up', request.url));
+  }
 
   return NextResponse.next();
 }
