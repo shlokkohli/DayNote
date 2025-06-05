@@ -5,7 +5,7 @@ import { Calendar, ChevronLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import GenericLoader from '@/components/Skeletons/GenricLoader'
-import { toast } from 'sonner'
+import { getCustomDate } from '@/helper/getCustomDate'
 
 interface output {
     summary: string
@@ -18,14 +18,17 @@ interface ErrorMessage {
 const summaryPage = () => {
 
     const router = useRouter();
-    const date = getFormattedDate()
 
+    const [date, SetDate] = useState('')
     const [summary, setSummary] = useState('')
     const [heading, setHeading] = useState('')
     const [loading, setLoading] = useState(false)
 
     const searchParams = useSearchParams();
     const generate = searchParams.get('generate')
+    const id = searchParams.get('id')
+
+    console.log("THis is id", id)
 
     let shouldGenerate = false;
 
@@ -47,7 +50,7 @@ const summaryPage = () => {
 
                     const summaryParts = message.split('\n')
 
-                    setHeading(summaryParts[0])
+                    setHeading(summaryParts[0].replace(/\*\*(.*?)\*\*/g, '$1'))
 
                     const formattedParts = summaryParts.slice(2) // skip heading and empty line
                     .filter(part => part.trim() !== '') // remove extra empty lines
@@ -61,10 +64,11 @@ const summaryPage = () => {
 
                 } else {
 
-                    const response = await axios.get('/api/userSummaries');
-                    const allSumaries = response.data.summaries;
-
-                    const latestSummary = allSumaries[0].content
+                    const response = await axios.get(`/api/userSummaries/${id}`);
+                   
+                    const latestSummary = response.data.summaries.content
+                    
+                    SetDate(getCustomDate(response.data.summaries.createdAt));
 
                     const summaryParts = latestSummary.split('\n')
 
@@ -129,16 +133,31 @@ const summaryPage = () => {
                         dangerouslySetInnerHTML={{ __html: summary }}>
                     </p>
 
-                    <button
-                        className='group flex items-center justify-center bg-gradient-to-r from-purple-600 to-blue-600
-                        hover:from-purple-700 hover:to-blue-700 text-white text-lg rounded-full p-2 px-6 transition-all gap-2'
-                        onClick={() => router.push('/log')}
-                    >
-                        <span className='group-hover:translate-x-2 transition-all duration-300'>
-                            <ChevronLeft />
-                        </span>
-                        Back to dashboard
-                    </button>
+                    {id ? (
+                        <>
+                            <button
+                            className='group flex items-center justify-center bg-gradient-to-r from-purple-600 to-blue-600
+                            hover:from-purple-700 hover:to-blue-700 text-white text-lg rounded-full p-2 px-6 transition-all gap-2'
+                            onClick={() => router.push('/calendar')}>
+                                <span className='group-hover:translate-x-2 transition-all duration-300'>
+                                    <ChevronLeft />
+                                </span>
+                                Back to Calendar
+                            </button> 
+                        </>
+                    ) : (
+                        <>
+                            <button
+                            className='group flex items-center justify-center bg-gradient-to-r from-purple-600 to-blue-600
+                            hover:from-purple-700 hover:to-blue-700 text-white text-lg rounded-full p-2 px-6 transition-all gap-2'
+                            onClick={() => router.push('/log')}>
+                                <span className='group-hover:translate-x-2 transition-all duration-300'>
+                                    <ChevronLeft />
+                                </span>
+                                Back to dashboard
+                            </button>
+                        </>
+                    )}
 
                 </>
                     

@@ -3,8 +3,9 @@ import { usePathname } from 'next/navigation'
 import ThemeToggle from '../ThemeToggle'
 import Logo from './Logo'
 import Link from 'next/link';
-import { Home, Settings } from 'lucide-react';
+import { Home, CalendarDays } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+
 
 const AuthNavbar = () => {
 
@@ -35,13 +36,22 @@ const AuthNavbar = () => {
                   </Link>
 
                   <Link
+                  href={'/calendar'}
+                  className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${ pathname === '/calendar' ? 
+                    'text-purple-600 bg-purple-500/20 dark:text-purple-400 dark:bg-purple-900/20' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-purple-900/20'
+                  }`}>
+                    <CalendarDays className="w-5 h-5" />
+                    <span className="font-medium">Calendar</span>
+                  </Link>
+
+                  {/* <Link
                   href={'/settings'}
                   className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${ pathname === '/settings' ? 
                     'text-purple-600 bg-purple-500/20 dark:text-purple-400 dark:bg-purple-900/20' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 dark:text-gray-300 dark:hover:text-purple-400 dark:hover:bg-purple-900/20'
                   }`}>
                     <Settings className="w-5 h-5" />
                     <span className="font-medium">Settings</span>
-                  </Link>
+                  </Link> */}
 
                 </div>
 

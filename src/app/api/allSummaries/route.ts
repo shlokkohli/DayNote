@@ -3,7 +3,7 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET() {  
 
     // this route will go to the user's summary and fetch all its summaries
 
@@ -18,13 +18,10 @@ export async function GET() {
 
     try {
 
-        // fetch the current user's all the summaries
+        // fetch the current user's exact summary
         const summaries = await prisma.summary.findMany({
             where: {
                 ownerId: session.user.id,
-            },
-            orderBy: {
-                createdAt: 'desc'
             },
             select: {
                 content: true,
@@ -32,6 +29,8 @@ export async function GET() {
                 id: true
             }
         });
+
+        console.log(summaries)
 
         return NextResponse.json(
             { summaries },
@@ -41,7 +40,7 @@ export async function GET() {
     } catch (error) {
 
         return NextResponse.json(
-            { message: "Failed to fetch summaries" },
+            { message: "Failed to fetch summaries", error },
             { status: 500 }
         )
         

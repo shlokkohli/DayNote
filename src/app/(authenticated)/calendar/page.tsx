@@ -16,25 +16,24 @@ export default function Home() {
     const fetchSummaries = async () => {
 
       try {
-        const response = await axios.get('/api/userSummaries')
-        console.log(response)
+        const response = await axios.get('/api/allSummaries')
         const allSummaries = response.data.summaries;
-
-        console.log(allSummaries[0].content)
 
         const events = allSummaries.map((summary : any) => {
           const title = summary.content.split('\n')[0]
+          const localDate = new Date(summary.createdAt).toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }); 
+
           return {
             id: summary.id,
             title: title,
-            date: summary.createdAt.split('T')[0],
+            date: localDate,
             color: title === 'Unproductive Day' ? '#ff0000' : '#0000ff',
           }
         })
 
         setSummaries(events);
 
-      } catch (error) {
+      } catch (error: any) {
 
         console.log("Error fetching summaries", error);
         
@@ -52,8 +51,8 @@ export default function Home() {
         plugins={[ dayGridPlugin ]}
         events={summaries}
         eventClick={(info) => {
-          router.push('/summary?generated=false')
-          console.log(info)
+          const id = info.event.id
+          router.push(`/summary?generated=false&id=${id}`)
         }}
         contentHeight={650}
         eventDidMount={(info) => {

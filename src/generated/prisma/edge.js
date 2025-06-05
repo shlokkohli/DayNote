@@ -155,7 +155,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/shlok/Downloads/daynote/src/generated/prisma",
+      "value": "/Users/shlok/Downloads/Web Dev/daynote/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -169,7 +169,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/shlok/Downloads/daynote/prisma/schema.prisma",
+    "sourceFilePath": "/Users/shlok/Downloads/Web Dev/daynote/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -187,12 +187,12 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:user1@localhost:5432/daynote?schema=public"
+        "value": "postgresql://postgres.ruzckngpuwljppkvvipe:MW95cUZCIKiAM2E4@aws-0-ap-south-1.pooler.supabase.com:6543/postgres"
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum SummaryFormat {\n  Paragraph\n  Segmented\n}\n\nenum NotificationType {\n  NoNotification\n  FixedIntervals\n}\n\nmodel User {\n  id               String           @id @default(cuid())\n  name             String\n  email            String           @unique\n  password         String?\n  SummaryFormat    SummaryFormat    @default(Paragraph)\n  NotificationType NotificationType @default(NoNotification)\n  logs             Log[]\n  Summary          Summary[]\n}\n\nmodel Log {\n  id        String   @id @default(cuid())\n  content   String\n  createdAt DateTime @default(now())\n  ownerId   String\n  owner     User     @relation(fields: [ownerId], references: [id])\n}\n\nmodel Summary {\n  id        String   @id @default(cuid())\n  content   String\n  createdAt DateTime @default(now())\n  ownerId   String\n  owner     User     @relation(fields: [ownerId], references: [id])\n}\n",
-  "inlineSchemaHash": "65577bbabd31285dcb56201372c4158697992b5e078be1d496c83adcdc16d067",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nenum SummaryFormat {\n  Paragraph\n  Segmented\n}\n\nenum NotificationType {\n  NoNotification\n  FixedIntervals\n}\n\nmodel User {\n  id               String           @id @default(cuid())\n  name             String\n  email            String           @unique\n  password         String?\n  SummaryFormat    SummaryFormat    @default(Paragraph)\n  NotificationType NotificationType @default(NoNotification)\n  logs             Log[]\n  Summary          Summary[]\n}\n\nmodel Log {\n  id        String   @id @default(cuid())\n  content   String\n  createdAt DateTime @default(now())\n  ownerId   String\n  owner     User     @relation(fields: [ownerId], references: [id])\n}\n\nmodel Summary {\n  id        String   @id @default(cuid())\n  content   String\n  createdAt DateTime @default(now())\n  ownerId   String\n  owner     User     @relation(fields: [ownerId], references: [id])\n}\n",
+  "inlineSchemaHash": "7727b34c4314f1ed62086e7780269520de9fcc0f2a6c0dca0f5377fcdf607a65",
   "copyEngine": true
 }
 config.dirname = '/'
