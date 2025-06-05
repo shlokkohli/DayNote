@@ -3,9 +3,9 @@ import { authOptions } from "../../auth/[...nextauth]/options";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET( request: Request, { params }: { params:{ id: string } } ) {  
+export async function GET( request: NextRequest, { params } : { params: Promise<{ id: string }> } ) {  
 
-    const { id: summaryID } = params;
+    const { id: summaryID } = await params;
 
     // this route will go to the user's summary and fetch all its summaries
 
@@ -32,8 +32,6 @@ export async function GET( request: Request, { params }: { params:{ id: string }
                 id: true
             }
         });
-
-        console.log(summaries)
 
         return NextResponse.json(
             { summaries },

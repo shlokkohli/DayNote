@@ -1,5 +1,4 @@
 'use client'
-import { getFormattedDate } from '@/helper/getFormattedDate'
 import axios, { AxiosError } from 'axios'
 import { Calendar, ChevronLeft } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -15,7 +14,7 @@ interface ErrorMessage {
     message: string
 }
 
-const summaryPage = () => {
+const SummaryClient = () => {
 
     const router = useRouter();
 
@@ -27,8 +26,6 @@ const summaryPage = () => {
     const searchParams = useSearchParams();
     const generate = searchParams.get('generate')
     const id = searchParams.get('id')
-
-    console.log("THis is id", id)
 
     let shouldGenerate = false;
 
@@ -105,6 +102,7 @@ const summaryPage = () => {
     }, [])
 
   return (
+    
     <div className='max-h-screen'>
 
         <hr />
@@ -172,4 +170,23 @@ const summaryPage = () => {
   )
 }
 
-export default summaryPage
+import { Suspense } from 'react'
+
+const SummaryLoading = () => (
+  <div className='max-h-screen'>
+    <hr />
+    <div className='p-12'>
+      <div className='flex flex-col justify-center items-center px-10 py-6 max-h-[400px] bg-white shadow-lg dark:bg-gray-800 max-w-3xl mx-auto space-y-6 rounded-xl'>
+        <GenericLoader />
+      </div>
+    </div>
+  </div>
+)
+
+const SummaryPageWrapper = () => (
+  <Suspense fallback={<SummaryLoading />}>
+    <SummaryClient />
+  </Suspense>
+)
+
+export default SummaryPageWrapper
