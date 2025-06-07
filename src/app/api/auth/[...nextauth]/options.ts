@@ -111,7 +111,7 @@ export const authOptions: NextAuthOptions = {
         }
     },
     pages: {
-        signIn: '/sign-in'
+        signIn: '/sign-up'
     },
     session: {
         strategy: 'jwt'
